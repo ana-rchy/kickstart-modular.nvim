@@ -22,15 +22,6 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -46,3 +37,43 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- vim: ts=2 sts=2 sw=2 et
+
+-- user stuff
+local opts = {
+  noremap = true, -- non-recursive
+  silent = true, -- do not show message
+}
+
+-- window navigation
+vim.keymap.set('n', '<A-Left>', '<C-w>h', opts)
+vim.keymap.set('n', '<A-Down>', '<C-w>j', opts)
+vim.keymap.set('n', '<A-Up>', '<C-w>k', opts)
+vim.keymap.set('n', '<A-Right>', '<C-w>l', opts)
+
+-- resize with arrows
+vim.keymap.set('n', '<A-S-Up>', ':resize -2<CR>', opts)
+vim.keymap.set('n', '<A-S-Down>', ':resize +2<CR>', opts)
+vim.keymap.set('n', '<A-S-Left>', ':vertical resize -2<CR>', opts)
+vim.keymap.set('n', '<A-S-Right>', ':vertical resize +2<CR>', opts)
+
+-- indents when in visual mode
+vim.keymap.set('v', '<S-Tab>', '<gv', opts)
+vim.keymap.set('v', '<Tab>', '>gv', opts)
+
+-- save
+vim.keymap.set('n', '<C-s>', ':w<CR>', { noremap = true })
+vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>a', { noremap = true })
+vim.keymap.set('v', '<C-s>', '<Esc>:w<CR>v', { noremap = true })
+
+-- term
+vim.keymap.set('n', '<A-CR>', ':sp | term<CR>', opts)
+vim.keymap.set('n', '<A-S-CR>', ':vs | term<CR>', opts)
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
+
+-- neotree
+vim.keymap.set({ 'v', 'i', 'n' }, '<A-`>', '<Esc>:Neotree toggle<CR>', opts)
+
+-- delete not cut
+vim.keymap.set({ 'v', 'n' }, 'd', '"_d', opts)
+vim.keymap.set({ 'v', 'n' }, 'x', '"_x', opts)
+vim.keymap.set({ 'v', 'n' }, '<C-d>', 'd', opts)

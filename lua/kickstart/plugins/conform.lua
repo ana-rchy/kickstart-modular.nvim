@@ -31,8 +31,16 @@ return {
           lsp_format = lsp_format_opt,
         }
       end,
+
+      formatters = {
+        astyle = {
+          prepend_args = { '--style=java' },
+        },
+      },
+
       formatters_by_ft = {
         lua = { 'stylua' },
+        cs = { 'astyle' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
